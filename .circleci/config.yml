@@ -1,7 +1,7 @@
 defaults: &defaults
   docker:
-  - image: golang:1.10.3
-  working_directory: /go/src/github.com/segmentio/terraform-docs
+  - image: golang:1.11.0
+  working_directory: /app
 
 version: 2
 jobs:
@@ -12,15 +12,13 @@ jobs:
     - save_cache:
         key: repo-{{ .Environment.CIRCLE_SHA1 }}
         paths:
-        - /go/src/github.com/segmentio/terraform-docs
+        - /app
 
   check-dependencies:
     <<: *defaults
     steps:
     - restore_cache:
         key: repo-{{ .Environment.CIRCLE_SHA1 }}
-    - run: export DEP_RELEASE_TAG=v0.5.0; curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-    - run: dep status
 
   lint:
     <<: *defaults
@@ -47,7 +45,7 @@ jobs:
     - save_cache:
         key: terraform-docs-{{ .Revision }}
         paths:
-        - /go/src/github.com/segmentio/terraform-docs
+        - /app
 
 workflows:
   version: 2
