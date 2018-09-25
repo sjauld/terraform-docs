@@ -12,7 +12,7 @@ GOPKGS      := $(shell go list ./... | grep -v /vendor)
 
 
 .PHONY: all
-all: clean deps lint test build
+all: clean lint test build
 
 .PHONY: authors
 authors:
@@ -40,10 +40,6 @@ clean:
 .PHONY: lint
 lint:
 	gometalinter --config gometalinter.json ./...
-
-.PHONY: deps
-deps:
-	dep ensure
 
 .PHONY: release
 release:
